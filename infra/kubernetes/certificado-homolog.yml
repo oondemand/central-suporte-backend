@@ -9,5 +9,5 @@ spec:
     name: letsencrypt-nginx
     kind: ClusterIssuer
   dnsNames:
-    - homolog.app1.central.oondemand.online
-    - homolog.api.app1.central.oondemand.online
+    - suporte.oondemand.online
+    - api.suporte.oondemand.online
