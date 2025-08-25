@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    # types:
-    #   - closed
 
 jobs:
   build_and_publish:
