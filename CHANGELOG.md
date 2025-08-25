@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.33 (2025-08-25)
+## 0.0.0 (2025-08-25)
 
 ## 0.3.32 (2025-08-22)
 
@@ -12,7 +12,7 @@
 
 ## 0.3.28 (2025-08-12)
 
-## [0.3.27](https://github.com/oondemand/central-oondemand-backend/compare/0.3.26...0.3.27) (2025-08-12)
+## [0.3.27](https://github.com/oondemand/central-suporte-backend/compare/0.3.26...0.3.27) (2025-08-12)
 
 ## 0.3.26 (2025-08-12)
 
@@ -32,7 +32,7 @@
 
 ### 🐛 Bug Fixes
 
-* update infra files ([0070b51](https://github.com/oondemand/central-oondemand-backend/commit/0070b51d0e274358ee9feb1e186d610ce27bf912))
+- update infra files ([0070b51](https://github.com/oondemand/central-suporte-backend/commit/0070b51d0e274358ee9feb1e186d610ce27bf912))
 
 ## 0.3.18 (2025-08-05)
 
@@ -74,13 +74,13 @@
 
 ### Features
 
-* adicionar nova versão 0.2.0 ao changelog, atualizando nome do projeto para "Central Oondemand" e incluindo seção sobre desenvolvimento de coleções ([1bbdaf0](https://github.com/oondemand/central-oondemand-backend/commit/1bbdaf05b538684d5536a057253d9c454da692e7))
+- adicionar nova versão 0.2.0 ao changelog, atualizando nome do projeto para "Central Oondemand" e incluindo seção sobre desenvolvimento de coleções ([1bbdaf0](https://github.com/oondemand/central-suporte-backend/commit/1bbdaf05b538684d5536a057253d9c454da692e7))
 
 ## 0.2.0 (2025-06-17)
 
 ### Features
 
-* atualizar nome do projeto para "Central Oondemand" e adicionar seção sobre desenvolvimento de coleções na documentação ([ed5b333](https://github.com/oondemand/central-oondemand/commit/ed5b333728e5eeb478954c58db8062520511b2df))
+- atualizar nome do projeto para "Central Oondemand" e adicionar seção sobre desenvolvimento de coleções na documentação ([ed5b333](https://github.com/oondemand/central-suporte/commit/ed5b333728e5eeb478954c58db8062520511b2df))
 
 ## 0.1.3 (2025-06-13)
 

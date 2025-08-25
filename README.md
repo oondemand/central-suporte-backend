@@ -1,8 +1,8 @@
 # Central Oondemand
 
-![GitHub stars](https://img.shields.io/github/stars/oondemand/central-oondemand)
-![GitHub issues](https://img.shields.io/github/issues/oondemand/central-oondemand)
-![GitHub license](https://img.shields.io/github/license/oondemand/central-oondemand)
+![GitHub stars](https://img.shields.io/github/stars/oondemand/central-suporte)
+![GitHub issues](https://img.shields.io/github/issues/oondemand/central-suporte)
+![GitHub license](https://img.shields.io/github/license/oondemand/central-suporte)
 [![Required Node.JS >=18.0.0](https://img.shields.io/static/v1?label=node&message=%20%3E=18.0.0&logo=node.js&color=3f893e)](https://nodejs.org/about/releases)
 
 ## Sumário
@@ -66,8 +66,8 @@ src/
 1. Clone o repositório
 
 ```bash
-git clone https://github.com/oondemand/central-oondemand.git
-cd central-oondemand
+git clone https://github.com/oondemand/central-suporte.git
+cd central-suporte
 ```
 
 2. Inicialize o banco de dados
@@ -103,7 +103,7 @@ npm run dev
 
 6. Popular banco de dados
 
-Com a aplicação rodando, execute o seguinte comando no seu terminal: 
+Com a aplicação rodando, execute o seguinte comando no seu terminal:
 
 > Uma base omie oficial não é necessária, porém desta forma você tera problemas na integração com o omie.
 
