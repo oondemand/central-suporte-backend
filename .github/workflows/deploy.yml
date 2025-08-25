@@ -1,11 +1,11 @@
 name: Deploy adn publish backend
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types:
-      - closed
+    # types:
+    #   - closed
 
 jobs:
   build_and_publish:
