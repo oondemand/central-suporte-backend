@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.1 (2025-08-25)
+
+### 🐛 Bug Fixes
+
+* remove comment from permissions in deploy workflow ([268904c](https://github.com/oondemand/central-suporte-backend/commit/268904ca1554ce2b5c66438e9af1d9bc18aa1dee))
+
 ## 0.0.0 (2025-08-25)
 
 ## 0.3.32 (2025-08-22)
