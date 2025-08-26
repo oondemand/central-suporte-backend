@@ -4,10 +4,10 @@ const SeveridadeExcel = require("../../services/severidade/excel");
 const { arrayToExcelBuffer } = require("../../utils/excel");
 const ImportacaoService = require("../../services/importacao");
 
-// const criar = async (req, res) => {
-//   const severidade = await SeveridadeService.criar({ severidade: req.body });
-//   sendResponse({ res, statusCode: 201, severidade });
-// };
+const criar = async (req, res) => {
+  const severidade = await SeveridadeService.criar({ severidade: req.body });
+  sendResponse({ res, statusCode: 201, severidade });
+};
 
 const atualizar = async (req, res) => {
   const severidade = await SeveridadeService.atualizar({
@@ -17,12 +17,12 @@ const atualizar = async (req, res) => {
   sendResponse({ res, statusCode: 200, severidade });
 };
 
-// const excluir = async (req, res) => {
-//   const severidadeExcluida = await SeveridadeService.excluir({
-//     id: req.params.id,
-//   });
-//   sendResponse({ res, statusCode: 200, severidade: severidadeExcluida });
-// };
+const excluir = async (req, res) => {
+  const severidadeExcluida = await SeveridadeService.excluir({
+    id: req.params.id,
+  });
+  sendResponse({ res, statusCode: 200, severidade: severidadeExcluida });
+};
 
 // const obterPorId = async (req, res) => {
 //   const severidade = await SeveridadeService.buscarPorId({ id: req.params.id });
@@ -113,10 +113,10 @@ const exportar = async (req, res) => {
 
 module.exports = {
   listar,
-  // criar,
+  criar,
   atualizar,
   // obterPorId,
-  // excluir,
+  excluir,
   exportar,
   importarSeveridade,
   // listarSeveridadePorPessoa,

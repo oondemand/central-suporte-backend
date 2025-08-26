@@ -10,14 +10,14 @@ const { uploadExcel } = require("../config/multer");
 
 router.get("/", asyncHandler(SeveridadeController.listar));
 
-// router.post(
-//   "/",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ADICIONADO,
-//     entidade: ENTIDADES.SEVERIDADE,
-//   }),
-//   asyncHandler(SeveridadeController.criar)
-// );
+router.post(
+  "/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.SEVERIDADE,
+  }),
+  asyncHandler(SeveridadeController.criar)
+);
 
 router.get("/exportar", asyncHandler(SeveridadeController.exportar));
 // router.get("/:id", asyncHandler(SeveridadeController.obterPorId));
@@ -31,14 +31,14 @@ router.patch(
   asyncHandler(SeveridadeController.atualizar)
 );
 
-// router.delete(
-//   "/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.EXCLUIDO,
-//     entidade: ENTIDADES.SEVERIDADE,
-//   }),
-//   asyncHandler(SeveridadeController.excluir)
-// );
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.SEVERIDADE,
+  }),
+  asyncHandler(SeveridadeController.excluir)
+);
 
 router.post(
   "/importar",

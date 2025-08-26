@@ -2,14 +2,12 @@ const Severidade = require("../../models/Severidade");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
 const SeveridadeNaoEncontradaError = require("../errors/severidade/severidadeNaoEncontrado");
-// const PessoaService = require("../pessoa");
-// const MoedaService = require("../moeda/bacen");
 
-// const criar = async ({ severidade }) => {
-//   const novoSeveridade = new Severidade(severidade);
-//   await novoSeveridade.save();
-//   return novoSeveridade;
-// };
+const criar = async ({ severidade }) => {
+  const novoSeveridade = new Severidade(severidade);
+  await novoSeveridade.save();
+  return novoSeveridade;
+};
 
 const atualizar = async ({ id, severidade }) => {
   const severidadeAtualizada = await Severidade.findByIdAndUpdate(
@@ -28,11 +26,10 @@ const atualizar = async ({ id, severidade }) => {
 //   return severidade;
 // };
 
-// const excluir = async ({ id }) => {
-//   const severidade = await Severidade.findById(id);
-//   severidade.status = "arquivado";
-//   return await severidade.save();
-// };
+const excluir = async ({ id }) => {
+  const severidade = await Severidade.findByIdAndDelete(id);
+  return severidade;
+};
 
 const listarComPaginacao = async ({
   filtros,
@@ -175,8 +172,8 @@ const listarComPaginacao = async ({
 // };
 
 module.exports = {
-  // criar,
-  // excluir,
+  criar,
+  excluir,
   atualizar,
   // buscarPorId,
   // fixarCotacao,
