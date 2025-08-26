@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const severidadeSchema = new mongoose.Schema(
   {
+    titulo: { type: String, required: true },
     impacto: { type: String, required: true },
     exemplo: { type: String, required: true },
     tempo_horas_resposta: { type: Number, required: true },
