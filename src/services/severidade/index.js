@@ -42,11 +42,11 @@ const listarComPaginacao = async ({
     schema: Severidade.schema,
     searchTerm,
     camposBusca: [
+      "titulo",
       "exemplo",
       "impacto",
       "tempo_horas_resposta",
       "tempo_resolucao_resposta",
-      "exemplo",
     ],
   });
 
