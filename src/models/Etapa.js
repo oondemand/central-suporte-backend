@@ -9,7 +9,7 @@ const etapaSchema = new mongoose.Schema(
     },
     esteira: {
       type: String,
-      enum: ["servicos-tomados", "pedido-venda"],
+      enum: ["suporte"],
       required: true,
     },
     codigo: {

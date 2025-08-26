@@ -1,51 +1,30 @@
 [
   {
-    "esteira": "servicos-tomados",
+    "esteira": "suporte",
     "nome": "Requisição",
     "codigo": "requisicao",
     "posicao": 10,
     "status": "ativo"
   },
   {
-    "esteira": "servicos-tomados",
-    "nome": "Aprovação Cadastro",
-    "codigo": "aprovacao-cadastro",
+    "esteira": "suporte",
+    "nome": "Pendentes",
+    "codigo": "pendente",
     "posicao": 20,
     "status": "ativo"
   },
   {
-    "esteira": "servicos-tomados",
-    "nome": "Geração RPA",
-    "codigo": "geracao-rpa",
+    "esteira": "suporte",
+    "nome": "Em andamento",
+    "codigo": "em-andamento",
     "posicao": 30,
     "status": "ativo"
   },
   {
-    "esteira": "servicos-tomados",
-    "nome": "Aprovação Fiscal",
-    "codigo": "aprovacao-fiscal",
+    "esteira": "suporte",
+    "nome": "Finalizado",
+    "codigo": "finalizado",
     "posicao": 40,
-    "status": "ativo"
-  },
-    {
-    "esteira": "servicos-tomados",
-    "nome": "Conta pagar central -> omie",
-    "codigo": "conta-pagar-central-omie",
-    "posicao": 50,
-    "status": "ativo"
-  },
-   {
-    "esteira": "servicos-tomados",
-    "nome": "Conta pagar central <- omie",
-    "codigo": "conta-pagar-omie-central",
-    "posicao": 60,
-    "status": "ativo"
-  },
-   {
-    "esteira": "servicos-tomados",
-    "nome": "Concluido",
-    "codigo": "concluido",
-    "posicao": 70,
     "status": "ativo"
   }
 ]
