@@ -32,7 +32,10 @@ const reprovar = async (req, res) => {
 };
 
 const createTicket = async (req, res) => {
-  const ticket = await TicketService.criar({ ticket: req.body });
+  const ticket = await TicketService.criar({
+    ticket: req.body,
+    usuario: req.usuario,
+  });
 
   sendResponse({
     res,
@@ -56,7 +59,7 @@ const updateTicket = async (req, res) => {
 
 const getAllTickets = async (req, res) => {
   const { time } = req.query;
-  const tickets = await TicketService.listar({ time });
+  const tickets = await TicketService.listar({ time, usuario: req.usuario });
 
   sendResponse({
     res,

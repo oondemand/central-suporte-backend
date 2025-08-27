@@ -6,10 +6,9 @@ router.get(
   "/",
   Helpers.asyncHandler(async (req, res) => {
     const options = [
-      { label: "Prestador", value: "prestador" },
-      { label: "Tomador", value: "tomador" },
+      { label: "Solicitante", value: "padrao" },
+      { label: "Agente", value: "agente" },
       { label: "Admin", value: "admin" },
-      { label: "Contabilidade", value: "contabilidade" },
     ];
 
     Helpers.sendResponse({

@@ -33,6 +33,7 @@ const authMiddleware = async (req, res, next) => {
           : response.data.usuario.aplicativo.tipoAcesso,
       nome: response.data.usuario.nome,
       email: response.data.usuario.email,
+      _id: response.data.usuario._id,
     };
 
     req.usuario = usuario;

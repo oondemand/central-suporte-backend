@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ticketSchema = new mongoose.Schema(
   {
     aplicativo: { type: String },
-    usuario_solicitante: { type: String },
+    usuario_solicitante: { type: { nome: String, email: String, _id: String } },
     prioridade: {
       type: String,
       enum: ["baixa", "media", "alta"],

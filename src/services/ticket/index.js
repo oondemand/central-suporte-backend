@@ -14,24 +14,24 @@ const EtapaService = require("../etapa");
 const DocumentoFiscal = require("../../models/DocumentoFiscal");
 const DocumentoFiscalNaoEncontradoError = require("../errors/documentoFiscal/documentoFiscalNaoEncontradaError");
 
-const criar = async ({ ticket }) => {
+const criar = async ({ ticket, usuario }) => {
   const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
     esteira: "suporte",
   });
 
-  const novoTicket = new Ticket({
+  return await Ticket.create({
     ...ticket,
+    usuario_solicitante: usuario,
     etapa: etapas[0]?.codigo,
   });
-  await novoTicket.save();
-  return novoTicket;
 };
 
-const listar = async ({ time = 1 }) => {
+const listar = async ({ time = 1, usuario }) => {
   const umDiaEmMilissegundos = 1000 * 60 * 60 * 24;
 
   const tickets = await Ticket.find({
     status: { $nin: ["arquivado"] },
+    "usuario_solicitante._id": usuario?._id,
     updatedAt: {
       $gte: new Date(Date.now() - Number(time) * umDiaEmMilissegundos),
     },
