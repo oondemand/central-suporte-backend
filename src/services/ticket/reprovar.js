@@ -1,12 +1,12 @@
-const Ticket = require("../../models/ServicoTomadoTicket");
+const Ticket = require("../../models/Ticket");
 const GenericError = require("../errors/generic");
 const EtapaService = require("../etapa");
 
 const reprovar = async ({ id }) => {
-  const ticket = await Ticket.findById(id).populate("pessoa");
+  const ticket = await Ticket.findById(id);
 
   const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
-    esteira: "servicos-tomados",
+    esteira: "suporte",
   });
 
   const etapaAtualIndex = etapas.findIndex((e) => e.codigo === ticket.etapa);
@@ -16,7 +16,7 @@ const reprovar = async ({ id }) => {
   }
 
   ticket.etapa = etapas[etapaAtualIndex - 1].codigo;
-  ticket.status = "revisao";
+  // ticket.status = "revisao";
   await ticket.save();
 
   return ticket;

@@ -4,11 +4,11 @@ const {
   sendPaginatedResponse,
 } = require("../../utils/helpers");
 
-const ServicoTomadoTicketService = require("../../services/servicoTomadoTicket");
+const TicketService = require("../../services/ticket");
 const ServicoService = require("../../services/servico");
 
 const aprovar = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.aprovar({
+  const ticket = await TicketService.aprovar({
     id: req.params.id,
   });
 
@@ -20,7 +20,7 @@ const aprovar = async (req, res) => {
 };
 
 const reprovar = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.reprovar({
+  const ticket = await TicketService.reprovar({
     id: req.params.id,
   });
 
@@ -32,7 +32,7 @@ const reprovar = async (req, res) => {
 };
 
 const createTicket = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.criar({ ticket: req.body });
+  const ticket = await TicketService.criar({ ticket: req.body });
 
   sendResponse({
     res,
@@ -42,7 +42,7 @@ const createTicket = async (req, res) => {
 };
 
 const updateTicket = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.atualizar({
+  const ticket = await TicketService.atualizar({
     id: req.params.id,
     ticket: req.body,
   });
@@ -56,28 +56,17 @@ const updateTicket = async (req, res) => {
 
 const getAllTickets = async (req, res) => {
   const { time } = req.query;
-  const tickets = await ServicoTomadoTicketService.listar({ time });
-
-  const ticketsComServicosComCotacao = await Promise.all(
-    tickets.map(async (ticket) => {
-      return {
-        ...ticket.toObject(),
-        servicos: await ServicoService.adicionarCotacao({
-          servicos: ticket.servicos,
-        }),
-      };
-    })
-  );
+  const tickets = await TicketService.listar({ time });
 
   sendResponse({
     res,
     statusCode: 200,
-    tickets: ticketsComServicosComCotacao,
+    tickets,
   });
 };
 
 const obterTicket = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.obterPorId({
+  const ticket = await TicketService.obterPorId({
     id: req.params.id,
   });
 
@@ -294,7 +283,7 @@ const obterTicket = async (req, res) => {
 // };
 
 const removerArquivo = async (req, res) => {
-  const arquivo = await ServicoTomadoTicketService.removerArquivo({
+  const arquivo = await TicketService.removerArquivo({
     arquivoId: req.params.id,
     ticketId: req.params.ticketId,
   });
@@ -307,7 +296,7 @@ const removerArquivo = async (req, res) => {
 };
 
 const anexarArquivos = async (req, res) => {
-  const arquivos = await ServicoTomadoTicketService.adicionarArquivo({
+  const arquivos = await TicketService.adicionarArquivo({
     arquivos: req.files,
     id: req.params.id,
   });
@@ -331,7 +320,7 @@ const getArchivedTickets = async (req, res) => {
   } = req.query;
 
   const { page, limite, tickets, totalDeTickets } =
-    await ServicoTomadoTicketService.listarComPaginacao({
+    await TicketService.listarComPaginacao({
       filtros: rest,
       pageIndex,
       pageSize,
@@ -450,7 +439,7 @@ const getArchivedTickets = async (req, res) => {
 // };
 
 const adicionarServico = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.adicionarServico({
+  const ticket = await TicketService.adicionarServico({
     servicoId: req.params.servicoId,
     ticketId: req.params.ticketId,
   });
@@ -463,7 +452,7 @@ const adicionarServico = async (req, res) => {
 };
 
 const removerServico = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.removerServico({
+  const ticket = await TicketService.removerServico({
     servicoId: req.params.servicoId,
   });
 
@@ -475,7 +464,7 @@ const removerServico = async (req, res) => {
 };
 
 const addDocumentoFiscal = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.adicionarDocumentoFiscal({
+  const ticket = await TicketService.adicionarDocumentoFiscal({
     documentoFiscalId: req.params.documentoFiscalId,
     ticketId: req.params.ticketId,
   });
@@ -488,7 +477,7 @@ const addDocumentoFiscal = async (req, res) => {
 };
 
 const removeDocumentoFiscal = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.removerDocumentoFiscal({
+  const ticket = await TicketService.removerDocumentoFiscal({
     documentoFiscalId: req?.params?.documentoFiscalId,
   });
 
@@ -500,7 +489,7 @@ const removeDocumentoFiscal = async (req, res) => {
 };
 
 const excluir = async (req, res) => {
-  const ticket = await ServicoTomadoTicketService.excluir({
+  const ticket = await TicketService.excluir({
     id: req.params.id,
   });
 

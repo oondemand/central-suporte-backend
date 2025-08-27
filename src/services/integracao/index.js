@@ -2,7 +2,7 @@ const Integracao = require("../../models/Integracao");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
 const IntegracaoNaoEncontradoError = require("../errors/integracao/integracaoNaoEncontrado");
-const ServicoTomadoTicket = require("../../models/ServicoTomadoTicket");
+const ServicoTomadoTicket = require("../../models/Ticket");
 const ContaPagar = require("../../models/ContaPagar");
 
 const listarTodos = async ({ tipo, direcao, arquivado = false, time }) => {

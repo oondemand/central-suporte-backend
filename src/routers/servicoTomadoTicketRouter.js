@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ServicoTomadoTicketController = require("../controllers/servicoTomadoTicket");
+const Ticket = require("../controllers/ticket");
 const multer = require("multer");
 const {
   registrarAcaoMiddleware,
@@ -22,16 +22,13 @@ const upload = multer({
 router.post(
   "/:id/upload",
   upload.array("arquivos", 10),
-  asyncHandler(ServicoTomadoTicketController.anexarArquivos)
+  asyncHandler(Ticket.anexarArquivos)
 );
 
-router.delete(
-  "/arquivo/:ticketId/:id",
-  asyncHandler(ServicoTomadoTicketController.removerArquivo)
-);
+router.delete("/arquivo/:ticketId/:id", asyncHandler(Ticket.removerArquivo));
 
-// router.get("/:id/arquivos", ServicoTomadoTicketController.listFilesFromTicket);
-// router.get("/arquivo/:id", ServicoTomadoTicketController.getArquivoPorId);
+// router.get("/:id/arquivos", Ticket.listFilesFromTicket);
+// router.get("/arquivo/:id", Ticket.getArquivoPorId);
 
 router.post(
   "/",
@@ -39,21 +36,18 @@ router.post(
     acao: ACOES.ADICIONADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.createTicket)
+  asyncHandler(Ticket.createTicket)
 );
 
-router.get("/", asyncHandler(ServicoTomadoTicketController.getAllTickets));
-router.get(
-  "/arquivados",
-  asyncHandler(ServicoTomadoTicketController.getArchivedTickets)
-);
+router.get("/", asyncHandler(Ticket.getAllTickets));
+router.get("/arquivados", asyncHandler(Ticket.getArchivedTickets));
 
-// router.get("/pagos", ServicoTomadoTicketController.getTicketsPago);
+// router.get("/pagos", Ticket.getTicketsPago);
 // router.get(
 //   "/usuario-prestador/:usuarioId",
-//   ServicoTomadoTicketController.getTicketsByUsuarioPrestador
+//   Ticket.getTicketsByUsuarioPrestador
 // );
-// router.get("/:id", ServicoTomadoTicketController.getTicketById);
+// router.get("/:id", Ticket.getTicketById);
 
 router.post(
   "/arquivar/:id",
@@ -61,7 +55,7 @@ router.post(
     acao: ACOES.ARQUIVADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.excluir)
+  asyncHandler(Ticket.excluir)
 );
 
 router.patch(
@@ -70,7 +64,7 @@ router.patch(
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.updateTicket)
+  asyncHandler(Ticket.updateTicket)
 );
 
 router.post(
@@ -79,7 +73,7 @@ router.post(
     acao: ACOES.APROVADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.aprovar)
+  asyncHandler(Ticket.aprovar)
 );
 
 router.post(
@@ -88,7 +82,7 @@ router.post(
     acao: ACOES.REPROVADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.reprovar)
+  asyncHandler(Ticket.reprovar)
 );
 
 // router.delete(
@@ -97,7 +91,7 @@ router.post(
 //     acao: ACOES.DELETADO,
 //     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   ServicoTomadoTicketController.deleteTicket
+//   Ticket.deleteTicket
 // );
 
 router.post(
@@ -106,7 +100,7 @@ router.post(
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.adicionarServico)
+  asyncHandler(Ticket.adicionarServico)
 );
 
 router.post(
@@ -115,7 +109,7 @@ router.post(
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.removerServico)
+  asyncHandler(Ticket.removerServico)
 );
 
 router.post(
@@ -124,7 +118,7 @@ router.post(
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.addDocumentoFiscal)
+  asyncHandler(Ticket.addDocumentoFiscal)
 );
 
 router.post(
@@ -133,9 +127,9 @@ router.post(
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(ServicoTomadoTicketController.removeDocumentoFiscal)
+  asyncHandler(Ticket.removeDocumentoFiscal)
 );
 
-router.get("/:id", asyncHandler(ServicoTomadoTicketController.obterTicket));
+router.get("/:id", asyncHandler(Ticket.obterTicket));
 
 module.exports = router;

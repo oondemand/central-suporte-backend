@@ -1,4 +1,4 @@
-const ServicoTomadoTicket = require("../../models/ServicoTomadoTicket");
+const Ticket = require("../../models/Ticket");
 const Servico = require("../../models/Servico");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
@@ -16,10 +16,10 @@ const DocumentoFiscalNaoEncontradoError = require("../errors/documentoFiscal/doc
 
 const criar = async ({ ticket }) => {
   const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
-    esteira: "servicos-tomados",
+    esteira: "suporte",
   });
 
-  const novoTicket = new ServicoTomadoTicket({
+  const novoTicket = new Ticket({
     ...ticket,
     etapa: etapas[0]?.codigo,
   });
@@ -30,32 +30,20 @@ const criar = async ({ ticket }) => {
 const listar = async ({ time = 1 }) => {
   const umDiaEmMilissegundos = 1000 * 60 * 60 * 24;
 
-  const tickets = await ServicoTomadoTicket.find({
+  const tickets = await Ticket.find({
     status: { $nin: ["arquivado"] },
     updatedAt: {
       $gte: new Date(Date.now() - Number(time) * umDiaEmMilissegundos),
     },
-  })
-    .populate({
-      path: "servicos",
-      populate: { path: "moeda" },
-    })
-    .populate("documentosFiscais")
-    .populate("pessoa")
-    .populate("contaPagarOmie")
-    .populate("arquivos");
+  }).populate("arquivos", "-buffer");
 
   return tickets;
 };
 
 const atualizar = async ({ id, ticket }) => {
-  const ticketAtualizado = await ServicoTomadoTicket.findByIdAndUpdate(
-    id,
-    ticket,
-    { new: true }
-  )
-    .populate("servicos")
-    .populate("pessoa");
+  const ticketAtualizado = await Ticket.findByIdAndUpdate(id, ticket, {
+    new: true,
+  });
 
   if (!ticketAtualizado) throw new TicketNaoEncontradoError();
 
@@ -63,26 +51,13 @@ const atualizar = async ({ id, ticket }) => {
 };
 
 const obterPorId = async ({ id }) => {
-  const ticket = await ServicoTomadoTicket.findById(id)
-    .populate({
-      path: "servicos",
-      populate: { path: "moeda" },
-    })
-    .populate({
-      path: "documentosFiscais",
-      populate: "arquivo",
-    })
-    .populate("pessoa")
-    .populate("contaPagarOmie")
-    .populate("arquivos");
-
+  const ticket = await Ticket.findById(id).populate("arquivos");
   if (!ticket || !id) throw new TicketNaoEncontradoError();
-
   return ticket;
 };
 
 const excluir = async ({ id }) => {
-  const ticket = await ServicoTomadoTicket.findById(id);
+  const ticket = await Ticket.findById(id);
 
   if (!ticket || !id) throw new TicketNaoEncontradoError();
 
@@ -100,7 +75,7 @@ const listarComPaginacao = async ({
 }) => {
   const queryTicket = FiltersUtils.buildQuery({
     filtros,
-    schema: ServicoTomadoTicket.schema,
+    schema: Ticket.schema,
     searchTerm,
     camposBusca: ["titulo", "createdAt"],
   });
@@ -115,13 +90,8 @@ const listarComPaginacao = async ({
   });
 
   const [tickets, totalDeTickets] = await Promise.all([
-    ServicoTomadoTicket.find(queryCombinada)
-      .skip(skip)
-      .limit(limite)
-      .populate("servicos")
-      .populate("pessoa")
-      .populate("contaPagarOmie"),
-    ServicoTomadoTicket.countDocuments(queryCombinada),
+    Ticket.find(queryCombinada).skip(skip).limit(limite),
+    Ticket.countDocuments(queryCombinada),
   ]);
 
   return { tickets, totalDeTickets, page, limite };
@@ -129,7 +99,7 @@ const listarComPaginacao = async ({
 
 const adicionarServico = async ({ ticketId, servicoId }) => {
   const servico = await Servico.findById(servicoId);
-  const ticket = await ServicoTomadoTicket.findById(ticketId);
+  const ticket = await Ticket.findById(ticketId);
 
   if (!servico) throw new ServicoNaoEncontradoError();
   if (!ticket) throw new TicketNaoEncontradoError();
@@ -140,9 +110,7 @@ const adicionarServico = async ({ ticketId, servicoId }) => {
   ticket.servicos = [...ticket?.servicos, servico?._id];
   await ticket.save();
 
-  const ticketPopulado = await ServicoTomadoTicket.findById(
-    ticket._id
-  ).populate("servicos");
+  const ticketPopulado = await Ticket.findById(ticket._id).populate("servicos");
 
   return ticketPopulado;
 };
@@ -156,7 +124,7 @@ const removerServico = async ({ servicoId }) => {
 
   if (!servico) throw new ServicoNaoEncontradoError();
 
-  const ticket = await ServicoTomadoTicket.findOneAndUpdate(
+  const ticket = await Ticket.findOneAndUpdate(
     { servicos: servicoId }, // Busca o ticket que contém este serviço
     { $pull: { servicos: servicoId } }, // Remove o serviço do array
     { new: true }
@@ -168,7 +136,7 @@ const removerServico = async ({ servicoId }) => {
 };
 
 const adicionarArquivo = async ({ id, arquivos }) => {
-  const ticket = await ServicoTomadoTicket.findById(id);
+  const ticket = await Ticket.findById(id);
 
   if (!ticket) throw new TicketNaoEncontradoError();
   if (!Array.isArray(arquivos) || arquivos.length === 0)
@@ -203,7 +171,7 @@ const removerArquivo = async ({ ticketId, arquivoId }) => {
   const arquivo = await Arquivo.findByIdAndDelete(arquivoId);
   if (!arquivo) throw new ArquivoNaoEncontradoError();
 
-  const ticket = await ServicoTomadoTicket.findByIdAndUpdate(ticketId, {
+  const ticket = await Ticket.findByIdAndUpdate(ticketId, {
     $pull: { arquivos: arquivoId },
   });
   if (!ticket) throw new TicketNaoEncontradoError();
@@ -218,7 +186,7 @@ const listarTicketsPorEtapa = async () => {
     { $project: { _id: 0, etapa: "$_id", count: 1 } },
   ];
 
-  return await ServicoTomadoTicket.aggregate(pipeline);
+  return await Ticket.aggregate(pipeline);
 };
 
 const listarTicketsPorStatus = async () => {
@@ -227,12 +195,12 @@ const listarTicketsPorStatus = async () => {
     { $project: { _id: 0, status: "$_id", count: 1 } },
   ];
 
-  return await ServicoTomadoTicket.aggregate(pipeline);
+  return await Ticket.aggregate(pipeline);
 };
 
 const adicionarDocumentoFiscal = async ({ ticketId, documentoFiscalId }) => {
   const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
-  const ticket = await ServicoTomadoTicket.findById(ticketId);
+  const ticket = await Ticket.findById(ticketId);
 
   if (!documentoFiscal) throw new DocumentoFiscalNaoEncontradoError();
   if (!ticket) throw new TicketNaoEncontradoError();
@@ -247,9 +215,9 @@ const adicionarDocumentoFiscal = async ({ ticketId, documentoFiscalId }) => {
 
   await ticket.save();
 
-  const ticketPopulado = await ServicoTomadoTicket.findById(
-    ticket._id
-  ).populate("documentosFiscais");
+  const ticketPopulado = await Ticket.findById(ticket._id).populate(
+    "documentosFiscais"
+  );
 
   return ticketPopulado;
 };
@@ -263,7 +231,7 @@ const removerDocumentoFiscal = async ({ documentoFiscalId }) => {
 
   if (!documentoFiscal) throw new DocumentoFiscalNaoEncontradoError();
 
-  const ticket = await ServicoTomadoTicket.findOneAndUpdate(
+  const ticket = await Ticket.findOneAndUpdate(
     { documentosFiscais: documentoFiscalId }, // Busca o ticket que contém este documento fiscal
     { $pull: { documentosFiscais: documentoFiscalId } }, // Remove o documento fiscal do array
     { new: true }
