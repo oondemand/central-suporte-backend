@@ -4,6 +4,7 @@ const ticketSchema = new mongoose.Schema(
   {
     aplicativo: { type: mongoose.Schema.Types.ObjectId },
     usuario_solicitante: { type: { nome: String, email: String, _id: String } },
+    usuario_responsavel: { type: { nome: String, email: String, _id: String } },
     prioridade: {
       type: String,
       enum: ["baixa", "media", "alta"],
