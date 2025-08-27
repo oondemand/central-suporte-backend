@@ -69,6 +69,7 @@ app.use("/importacoes", require("./routers/importacaoRouter"));
 app.use("/assistentes", require("./routers/assistenteRouter"));
 app.use("/sistema", require("./routers/sistemaRouter"));
 app.use("/severidades", require("./routers/severidadeRouter"));
+app.use("/aplicativos", require("./routers/aplicativoRouter"));
 
 app.use(
   "/servicos-tomados/tickets",

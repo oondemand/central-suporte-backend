@@ -37,6 +37,7 @@ const authMiddleware = async (req, res, next) => {
     };
 
     req.usuario = usuario;
+    req.token = token;
     next();
   } catch (error) {
     return Helpers.sendErrorResponse({

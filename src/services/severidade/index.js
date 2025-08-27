@@ -75,14 +75,10 @@ const listarComPaginacao = async ({
   };
 };
 
-// const listarTodosPorPessoa = async ({ pessoaId }) => {
-//   const severidades = await Severidade.find({
-//     statusProcessamento: "aberto",
-//     pessoa: pessoaId,
-//   }).populate("pessoa", "nome documento");
-
-//   return severidades;
-// };
+const listarTodos = async () => {
+  const severidades = await Severidade.find();
+  return severidades;
+};
 
 // const valoresPorStatus = async () => {
 //   const aggregationPipeline = [
@@ -175,10 +171,10 @@ module.exports = {
   criar,
   excluir,
   atualizar,
+  listarTodos,
   // buscarPorId,
   // fixarCotacao,
   // valoresPorStatus,
   // adicionarCotacao,
   listarComPaginacao,
-  // listarTodosPorPessoa,
 };

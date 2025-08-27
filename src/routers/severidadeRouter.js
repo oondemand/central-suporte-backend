@@ -9,6 +9,7 @@ const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
 const { uploadExcel } = require("../config/multer");
 
 router.get("/", asyncHandler(SeveridadeController.listar));
+router.get("/todas", asyncHandler(SeveridadeController.listarTodasSeveridades));
 
 router.post(
   "/",
@@ -45,10 +46,5 @@ router.post(
   uploadExcel.array("file"),
   asyncHandler(SeveridadeController.importarSeveridade)
 );
-
-// router.get(
-//   "/pessoa/:pessoaId",
-//   asyncHandler(SeveridadeController.listarSeveridadePorPessoa)
-// );
 
 module.exports = router;

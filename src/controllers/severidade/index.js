@@ -99,17 +99,15 @@ const exportar = async (req, res) => {
   });
 };
 
-// const listarSeveridadePorPessoa = async (req, res) => {
-//   const severidades = await SeveridadeService.listarTodosPorPessoa({
-//     pessoaId: req.params.pessoaId,
-//   });
+const listarTodasSeveridades = async (req, res) => {
+  const severidades = await SeveridadeService.listarTodos();
 
-//   sendResponse({
-//     res,
-//     statusCode: 200,
-//     severidades,
-//   });
-// };
+  sendResponse({
+    res,
+    statusCode: 200,
+    severidades,
+  });
+};
 
 module.exports = {
   listar,
@@ -119,5 +117,5 @@ module.exports = {
   excluir,
   exportar,
   importarSeveridade,
-  // listarSeveridadePorPessoa,
+  listarTodasSeveridades,
 };

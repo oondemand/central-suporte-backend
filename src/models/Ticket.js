@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ticketSchema = new mongoose.Schema(
   {
-    aplicativo: { type: String },
+    aplicativo: { type: mongoose.Schema.Types.ObjectId },
     usuario_solicitante: { type: { nome: String, email: String, _id: String } },
     prioridade: {
       type: String,
