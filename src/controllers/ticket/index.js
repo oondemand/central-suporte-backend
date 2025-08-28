@@ -311,6 +311,34 @@ const anexarArquivos = async (req, res) => {
   });
 };
 
+const adicionarComentario = async (req, res) => {
+  const ticket = await TicketService.adicionarComentario({
+    mensagem: req.body.mensagem,
+    arquivos: req.files,
+    id: req.params.id,
+    usuario: req.usuario,
+  });
+
+  sendResponse({
+    res,
+    ticket,
+    statusCode: 201,
+  });
+};
+
+const removerComentario = async (req, res) => {
+  const ticket = await TicketService.excluirComentario({
+    comentarioId: req.params.comentarioId,
+    ticketId: req.params.id,
+  });
+
+  sendResponse({
+    res,
+    ticket,
+    statusCode: 201,
+  });
+};
+
 const getArchivedTickets = async (req, res) => {
   const {
     ["prestador.nome"]: nome,
@@ -511,11 +539,13 @@ module.exports = {
   updateTicket,
   createTicket,
   getAllTickets,
+  removerComentario,
   getArchivedTickets,
   adicionarServico,
   removerServico,
   anexarArquivos,
   removerArquivo,
   addDocumentoFiscal,
+  adicionarComentario,
   removeDocumentoFiscal,
 };

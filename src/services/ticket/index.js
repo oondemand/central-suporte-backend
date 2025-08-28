@@ -13,6 +13,7 @@ const ArquivoNaoEncontradoError = require("../errors/arquivo/arquivoNaoEncontrad
 const EtapaService = require("../etapa");
 const DocumentoFiscal = require("../../models/DocumentoFiscal");
 const DocumentoFiscalNaoEncontradoError = require("../errors/documentoFiscal/documentoFiscalNaoEncontradaError");
+const Comentario = require("../../models/Comentario");
 
 const criar = async ({ ticket, usuario }) => {
   const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
@@ -51,7 +52,11 @@ const atualizar = async ({ id, ticket }) => {
 };
 
 const obterPorId = async ({ id }) => {
-  const ticket = await Ticket.findById(id).populate("arquivos");
+  const ticket = await Ticket.findById(id).populate("arquivos").populate({
+    path: "comentarios",
+    populate: "arquivos",
+  });
+
   if (!ticket || !id) throw new TicketNaoEncontradoError();
   return ticket;
 };
@@ -167,6 +172,69 @@ const adicionarArquivo = async ({ id, arquivos }) => {
   return arquivosSalvos;
 };
 
+const adicionarComentario = async ({ mensagem, arquivos, id, usuario }) => {
+  const ticket = await Ticket.findById(id);
+
+  if (!ticket) throw new TicketNaoEncontradoError();
+
+  const arquivosSalvos = await Promise.all(
+    arquivos.map(async (file) => {
+      const arquivo = new Arquivo({
+        nome: criarNomePersonalizado({ nomeOriginal: file.originalname }),
+        nomeOriginal: file.originalname,
+        path: file.path,
+        mimetype: file.mimetype,
+        size: file.size,
+        buffer: file.buffer,
+      });
+
+      await arquivo.save();
+      return arquivo;
+    })
+  );
+
+  const comentario = await Comentario.create({
+    arquivos: arquivosSalvos.map((a) => a._id),
+    mensagem,
+    usuario,
+  });
+
+  ticket.comentarios.push(comentario._id);
+  return await ticket.save();
+};
+
+const excluirComentario = async ({ ticketId, comentarioId }) => {
+  const ticket = await Ticket.findById(ticketId).populate("comentarios");
+
+  if (!ticket) {
+    throw new TicketNaoEncontradoError();
+  }
+
+  const comentario = await Comentario.findById(comentarioId).populate(
+    "arquivos"
+  );
+
+  if (!comentario) {
+    throw new GenericError("Comentário não encontrado", 404);
+  }
+
+  for (const arquivo of comentario.arquivos) {
+    try {
+      await Arquivo.findByIdAndDelete(arquivo._id);
+    } catch (err) {
+      console.error("Erro ao remover arquivo:", err);
+    }
+  }
+
+  await Comentario.findByIdAndDelete(comentarioId);
+
+  ticket.comentarios = ticket.comentarios.filter(
+    (cId) => cId.toString() !== comentarioId.toString()
+  );
+
+  return await ticket.save();
+};
+
 const removerArquivo = async ({ ticketId, arquivoId }) => {
   const arquivo = await Arquivo.findByIdAndDelete(arquivoId);
   if (!arquivo) throw new ArquivoNaoEncontradoError();
@@ -254,7 +322,9 @@ module.exports = {
   removerServico,
   adicionarArquivo,
   adicionarServico,
+  excluirComentario,
   listarComPaginacao,
+  adicionarComentario,
   listarTicketsPorEtapa,
   listarTicketsPorStatus,
   removerDocumentoFiscal,

@@ -25,6 +25,17 @@ router.post(
   asyncHandler(Ticket.anexarArquivos)
 );
 
+router.post(
+  "/:id/comentario",
+  upload.array("arquivos", 10),
+  asyncHandler(Ticket.adicionarComentario)
+);
+
+router.post(
+  "/:id/remover-comentario/:comentarioId",
+  asyncHandler(Ticket.removerComentario)
+);
+
 router.delete("/arquivo/:ticketId/:id", asyncHandler(Ticket.removerArquivo));
 
 // router.get("/:id/arquivos", Ticket.listFilesFromTicket);

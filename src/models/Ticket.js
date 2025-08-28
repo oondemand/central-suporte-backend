@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Comentario = require("../models/Comentario");
 
 const ticketSchema = new mongoose.Schema(
   {
@@ -15,6 +16,7 @@ const ticketSchema = new mongoose.Schema(
     detalhamento: { type: String },
     etapa: { type: String },
     arquivos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Arquivo" }],
+    comentarios: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comentario" }],
     severidade: { type: mongoose.Schema.Types.ObjectId, ref: "Severidade" },
     primeira_resposta_em: Date,
     ultima_interacao_em: Date,
