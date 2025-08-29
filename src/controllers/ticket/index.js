@@ -83,6 +83,8 @@ const obterTicket = async (req, res) => {
 // const getTicketsByUsuarioPrestador = async (req, res) => {
 //   const { usuarioId } = req.params;
 
+//
+
 //   const prestador = await Prestador.findOne({ usuario: usuarioId });
 //   const config = await Sistema.findOne();
 
