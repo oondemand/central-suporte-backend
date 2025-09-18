@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0 (2025-09-18)
+
+### ✨ Features
+
+* fix some issues ([4c03b4f](https://github.com/oondemand/central-suporte-backend/commit/4c03b4f0e32c872eb951cb30807b972ab51c004f))
+
 ## 0.0.4 (2025-08-29)
 
 ## 0.0.3 (2025-08-29)
